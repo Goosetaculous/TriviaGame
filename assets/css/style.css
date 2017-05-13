@@ -2,7 +2,9 @@ body {
     background-image: url("http://www.sandiegomagazine.com/images/2012/november/asian_food_guide/web_convoy_map.gif");
 }
 
-
+#button-restart {
+    display: none;
+}
 
 
 .jumbotron {
@@ -15,7 +17,7 @@ body {
 
 .row { background-color: aliceblue;}
 
-.col-md-12, #start-button, #game-result,#question-container {
+.col-md-12, #start-button, #game-result,#question-container,#restart-button {
     text-align: center;
 }
 

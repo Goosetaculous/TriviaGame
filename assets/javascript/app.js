@@ -40,11 +40,19 @@ var questions = [
 ]
 function start_game(){
     $("#button-start").hide();
-    $("#button-restart").hide();
+
     game()
 }
 function restart_game(){
-    $("#button-restart").hide();
+    index=0
+    correctAnswer=0
+    incorrectAnswer=0
+    correct = false
+    $("#button-restart").hide()
+    $("h5").remove()
+
+
+
     game()
 }
 
@@ -81,9 +89,9 @@ function resultDisplay(pic){
 function summary(){
     var unanswererd = questions.length - (correctAnswer+incorrectAnswer)
     $(".choices").html("")
-    $("#game-result").append("<h4>Your score is "+ correctAnswer+ "</h4>")
-    $("#game-result").append("<h4>Your incorrect anwers: "+ incorrectAnswer+ "</h4>")
-    $("#game-result").append("<h4>You didn't answer "+ unanswererd+ " questions</h4>")
+    $("#game-result").append("<h5>Your score is "+ correctAnswer+ "</h5>")
+    $("#game-result").append("<h5>Your incorrect anwers: "+ incorrectAnswer+ "</h5>")
+    $("#game-result").append("<h5>You didn't answer "+ unanswererd+ " questions</h5>")
     gameRestart()
 }
 var stop =function (remaining){
