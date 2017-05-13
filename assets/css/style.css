@@ -5,3 +5,20 @@
 #start-button {
     margin: 0 auto !important;
 }
+
+.row { background-color: aliceblue;}
+
+.col-md-12, #start-button {
+    text-align: center;
+}
+
+#start-button {
+    height:50px;
+}
+
+#choices-container {
+    text-align: center;
+    margin-top: 2px;
+}
+
+.btn {margin-top: 2px; }

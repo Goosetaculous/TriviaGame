@@ -2,9 +2,10 @@
  * Created by goosetaculous on 5/8/17.
  */
 var index=0
-    var correctAnswer=0
-    var incorrectAnswer=0
-    var unAnswered=0
+var correctAnswer=0
+var correct = false
+var remaining
+var time
 var questions = [
     {
         ques    : "Which Convoy eatery is famous for it’s dumplings? ",
@@ -35,80 +36,126 @@ var questions = [
         choices : ["Yakyudori","Rakiraki Ramen and Tsukemen ","Chopstix"],
         answer  : 1,
         img     : "https://s3-media2.fl.yelpcdn.com/bphoto/xYdNSY7-Ltn1HYIbS-6yxQ/ls.jpg"
-    },
-    {
-        wrong   : "Wrong answer, here's a Top Ramen",
-        img     : "http://www.frajosfood.com/img/p/1/5/6/4/4/15644-home_default.jpg"
     }
 ]
-
-
-function game(){
-    $("#start-button").hide();
-    countDown()
-
+function start_game(){
+    $(".btn-primary").hide();
+    game()
+    $(".main-content").show()
 }
-
-
-
-
-$(this).click(function(e) {
-    console.log($(e.target).attr('id'))
-    console.log("RIGHT ANSWER: ", questions[index-1].answer)
-    if(parseInt($(e.target).attr('id'))===questions[index-1].answer)
-    {
-        alert("right")
-        correctAnswer++
-
-    }else{
-
-    }
-})
-
-
 function displayQuestion(index){
-    console.log("displayQuestion:",index)
-    $("#question").html(questions[index].ques)
-    $.each(questions[index].choices,function(index,value){
-        var div = $('<div/>',{
-            class : 'choices '+ index,
-            id    : index,
+    var question = $("<h3>").attr({class:"col-md-12 question"}).text(questions[index].ques)
+    $("#question-container").html(question)
+}
+function displayChoices(index){
+    $("#choices-container").html("<div class='choices'></div>")
+    $.each(questions[index].choices,function(id,value){
+        var div = $('<button/>',{
+            class : 'btn btn-info',
+            onclick : "button"+id+"("+index+")",
             text  : value
         })
-        $("#question").append(div)
+        $(".choices").append(div,"<br>")
     })
-    return(questions[index].answer)
+}
+
+function nextQuestion(questionIndex){
+    displayQuestion(questionIndex)
+    displayChoices(questionIndex)
+}
+
+function correctDisplay(pic){
+    var img =$("<img>").attr("src",pic)
+        $(".choices").html(img)
 }
 
 function summary(){
-    $("#start-button").show("slow",function(){
-        $(this).html("Your score is "+ correctAnswer)
+    $(".btn").hide("slow",function(){
+        $(".choices-container").append("<h4>Your score is "+ correctAnswer+ "</h4>")
     })
 }
 
-function countDown(){
-    var time = 10
-
-
-    if(index < 5){
-        clearInterval(remaining)
-        displayQuestion(index++)
-        var remaining = setInterval(function displaytime(){
-            $("#time-remaining").html("Time remaining "+ time--)
-
-            if (time === -1){
-                clearInterval(remaining)
-                countDown()
-            }
-        }, 1000);
-    }else{
-        summary()
-    }
-
-
-
-
-
+var stop =function (remaining){
+    clearInterval(remaining)
+    console.log("STOP")
+    game()
 }
 
+
+
+function timer(time,callback){
+        remaining = setInterval(function (){
+             $("#start-button").html("<h4>Time remaining "+ time-- + "</h4>")
+            if (time < 0 || correct){
+                callback(remaining)
+            }
+        }, 1000);
+}
+
+function game(){
+    console.log("GAME:",index)
+  if(index < 5){
+      correct = false
+      nextQuestion(index)
+      timer(10,stop)
+      console.log("remaining",remaining)
+      index++
+  }
+}
+
+
+/**
+ * EVENT DELAGATION
+ * I'm having a little trouble =(
+ */
+
+$('#choices-container button').on( "click", function( event ) {
+    event.preventDefault();
+    console.log( $( this ).text() );
+});
+
+function button0(num){
+    if (0 === questions[num].answer){
+        correctAnswer++
+
+
+        $("#start-button").html("<h4></h4>")
+        $(".btn").hide("slow", function(){
+            correctDisplay(questions[num].img)
+        })
+        setTimeout(function(){ correct = true;; }, 2000);
+
+    }
+}
+
+function button1(num){
+    if (1 === questions[num].answer){
+        correctAnswer++
+
+
+        $("#start-button").html("<h4></h4>")
+
+        $(".btn").hide("slow", function(){
+            correctDisplay(questions[num].img)
+
+        })
+        setTimeout(function(){ correct = true;; }, 2000);
+
+    }
+}
+
+function button2(num){
+    if (2 === questions[num].answer){
+        correctAnswer++
+
+
+        $("#start-button").html("<h4></h4>")
+        $(".btn").hide("slow", function(){
+            correctDisplay(questions[num].img)
+
+
+        })
+        setTimeout(function(){ correct = true;; }, 2000);
+    }
+}
 
