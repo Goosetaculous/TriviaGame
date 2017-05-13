@@ -1,3 +1,10 @@
+body {
+    /*background-image: url("http://www.sandiegomagazine.com/images/2012/november/asian_food_guide/web_convoy_map.gif");*/
+}
+
+
+
+
 .jumbotron {
     text-align: center;
 }
@@ -8,11 +15,11 @@
 
 .row { background-color: aliceblue;}
 
-.col-md-12, #start-button {
+.col-md-12, #start-button, #game-result,#question-container {
     text-align: center;
 }
 
-#start-button {
+#start-button, #restart-button {
     height:50px;
 }
 

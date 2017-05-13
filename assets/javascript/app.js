@@ -3,9 +3,9 @@
  */
 var index=0
 var correctAnswer=0
+var incorrectAnswer=0
 var correct = false
 var remaining
-var time
 var questions = [
     {
         ques    : "Which Convoy eatery is famous for it’s dumplings? ",
@@ -39,10 +39,16 @@ var questions = [
     }
 ]
 function start_game(){
-    $(".btn-primary").hide();
+    $("#button-start").hide();
+    $("#button-restart").hide();
     game()
-    $(".main-content").show()
 }
+function restart_game(){
+    $("#button-restart").hide();
+    game()
+}
+
+
 function displayQuestion(index){
     var question = $("<h3>").attr({class:"col-md-12 question"}).text(questions[index].ques)
     $("#question-container").html(question)
@@ -56,33 +62,34 @@ function displayChoices(index){
             text  : value
         })
         $(".choices").append(div,"<br>")
+        $("#button-start").hide();
     })
 }
-
 function nextQuestion(questionIndex){
     displayQuestion(questionIndex)
     displayChoices(questionIndex)
 }
-
-function correctDisplay(pic){
+function gameRestart(){
+    $("#start-button").html("")
+    $("#question-container").html("")
+    $("#button-restart").show();
+}
+function resultDisplay(pic){
     var img =$("<img>").attr("src",pic)
-        $(".choices").html(img)
+    $(".choices").html(img)
 }
-
 function summary(){
-    $(".btn").hide("slow",function(){
-        $(".choices-container").append("<h4>Your score is "+ correctAnswer+ "</h4>")
-    })
+    var unanswererd = questions.length - (correctAnswer+incorrectAnswer)
+    $(".choices").html("")
+    $("#game-result").append("<h4>Your score is "+ correctAnswer+ "</h4>")
+    $("#game-result").append("<h4>Your incorrect anwers: "+ incorrectAnswer+ "</h4>")
+    $("#game-result").append("<h4>You didn't answer "+ unanswererd+ " questions</h4>")
+    gameRestart()
 }
-
 var stop =function (remaining){
     clearInterval(remaining)
-    console.log("STOP")
     game()
 }
-
-
-
 function timer(time,callback){
         remaining = setInterval(function (){
              $("#start-button").html("<h4>Time remaining "+ time-- + "</h4>")
@@ -91,18 +98,31 @@ function timer(time,callback){
             }
         }, 1000);
 }
-
+function checkAnswer(buttonId,num){
+    var disp
+    if (buttonId === questions[num].answer){
+        $("#question-container").html("<h3>Correct!</h3>")
+        correctAnswer++
+        disp = questions[num].img
+    }else{
+        incorrectAnswer++
+        disp="https://i.imgflip.com/1oy6wb.jpg"
+    }
+    $(".btn").hide("slow", function(){
+        resultDisplay(disp)
+    })
+    setTimeout(function(){ correct = true;; }, 3000);
+}
 function game(){
-    console.log("GAME:",index)
   if(index < 5){
       correct = false
       nextQuestion(index)
       timer(10,stop)
-      console.log("remaining",remaining)
       index++
+  }else {
+      summary()
   }
 }
-
 
 /**
  * EVENT DELAGATION
@@ -115,47 +135,13 @@ $('#choices-container button').on( "click", function( event ) {
 });
 
 function button0(num){
-    if (0 === questions[num].answer){
-        correctAnswer++
-
-
-        $("#start-button").html("<h4></h4>")
-        $(".btn").hide("slow", function(){
-            correctDisplay(questions[num].img)
-        })
-        setTimeout(function(){ correct = true;; }, 2000);
-
-    }
+    checkAnswer(0,num)
 }
 
 function button1(num){
-    if (1 === questions[num].answer){
-        correctAnswer++
-
-
-        $("#start-button").html("<h4></h4>")
-
-        $(".btn").hide("slow", function(){
-            correctDisplay(questions[num].img)
-
-        })
-        setTimeout(function(){ correct = true;; }, 2000);
-
-    }
+    checkAnswer(1,num)
 }
-
 function button2(num){
-    if (2 === questions[num].answer){
-        correctAnswer++
-
-
-        $("#start-button").html("<h4></h4>")
-        $(".btn").hide("slow", function(){
-            correctDisplay(questions[num].img)
-
-
-        })
-        setTimeout(function(){ correct = true;; }, 2000);
-    }
+    checkAnswer(2,num)
 }
 

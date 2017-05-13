@@ -15,16 +15,24 @@
 <header>
     <div class="container">
         <div class="jumbotron">
-            <h1>DO YOU KNOW CONVOY</h1>
+            <h1>DO YOU KNOW CONVOY?</h1>
         </div>
 
     </div>
 </header>
 <div class="container">
     <div class="row" id="start-button">
-        <button type="button" class="btn btn-primary" onclick="start_game()">Start</button>
+        <button type="button" class="btn btn-primary" id="button-start" onclick="start_game()"><h3>START</h3></button>
+
     </div>
+    <div class="row" id="restart-button">
+        <button type="button" class="btn btn-primary" id="button-restart" onclick="restart_game()"><h3>RESTART</h3></button>
+    </div>
+
+
     <div class="row" id="time-remaining">
+    </div>
+    <div class="row" id="game-result">
     </div>
     <div class="row" id="question-container">
 
@@ -33,8 +41,7 @@
     </div>
 
 
-    <div class="row content" id="result">
-    </div>
+
     <div class="row content" id="result-img">
     </div>
 </div>
